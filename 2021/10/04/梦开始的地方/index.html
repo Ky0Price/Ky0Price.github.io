@@ -13,16 +13,16 @@
 <meta property="og:site_name" content="学不会数学">
 <meta property="og:description" content="本文章纯属作者本人的一些碎碎念，其中出现的人物和事件不必有现实原型。 [toc] 写在前面严格来算，这个sit项目早在2021年的6月就已经立项成功了，立项过程中也充满了各种巧合和翻车，所幸结果还行。当时就想着是不是得写点什么来记录下项目过程中的节点和日常细节，毕竟这也算是本人在本科阶段的第一段科研经历，多少还是有点纪念意义（其实是怕中期和结题答辩以及写paper的时候忘词了）。 原本嘛也没打算写">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/27682/AppData/Roaming/Typora/typora-user-images/image-20211004215403736.png">
+<meta property="og:image" content="http://example.com/2021/10/04/%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9/image-1.png">
 <meta property="og:image" content="https://pic1.zhimg.com/v2-a0ff0f6003e073a92a8ad9f0d8bca745_1440w.jpg?source=172ae18b">
-<meta property="og:image" content="c:/Users/27682/AppData/Roaming/Typora/typora-user-images/image-20211004221411402.png">
+<meta property="og:image" content="http://example.com/2021/10/04/%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9/image-2.png">
 <meta property="article:published_time" content="2021-10-04T00:04:12.000Z">
-<meta property="article:modified_time" content="2021-10-04T14:37:33.675Z">
+<meta property="article:modified_time" content="2021-10-04T15:03:17.331Z">
 <meta property="article:author" content="学不会数学">
 <meta property="article:tag" content="sit2021">
 <meta property="article:tag" content="碎碎念">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/27682/AppData/Roaming/Typora/typora-user-images/image-20211004215403736.png">
+<meta name="twitter:image" content="http://example.com/2021/10/04/%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9/image-1.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -237,7 +237,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-10-04 22:37:33'>2021-10-04 08:04</time>
+            发布时间 : <time class="date" title='最后更新: 2021-10-04 23:03:17'>2021-10-04 08:04</time>
         
     </div>
     <div class="article-meta">
@@ -300,14 +300,13 @@
 <h1 id="黄sir的一夜奇迹"><a href="#黄sir的一夜奇迹" class="headerlink" title="黄sir的一夜奇迹"></a>黄sir的一夜奇迹</h1><p>在一阵旁敲侧击之后，得知黄sir手里目前只有一个分子动力学模拟的项目，给了几个大二的学生，问我想不想跟着做。</p>
 <h2 id="区别在哪里"><a href="#区别在哪里" class="headerlink" title="区别在哪里"></a>区别在哪里</h2><h3 id="研究对象"><a href="#研究对象" class="headerlink" title="研究对象"></a>研究对象</h3><p>分子动力学和DFT（密度泛函理论）差别还是蛮大的，我现在在做的DFT一般涉及到的对象是晶体的一个晶胞，涉及到的原子往往也就那么几十个。</p>
 <p>这是从Materials Project网站上面找到的一个常压下（也许）能够稳定存在的Li-C-N-O的四元化合物的晶胞，放到vesta里面可视化了一下，可以看到结构还是比较清晰的：</p>
-<p><img src="C:\Users\27682\AppData\Roaming\Typora\typora-user-images\image-20211004215403736.png" alt="image-20211004215403736"></p>
+<p><img src="/2021/10/04/%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9/image-1.png" alt="image-1"></p>
 <p>但是到了分子动力学这块，研究人员要面对的往往是有机高分子或者生物大分子，那个模型渲染出来不仅费电脑，还特别精神污染，看了后会掉san的那种。</p>
 <p>这是一个蛋白质的分子模型：</p>
 <p><img src="https://pic1.zhimg.com/v2-a0ff0f6003e073a92a8ad9f0d8bca745_1440w.jpg?source=172ae18b" alt="分子动力学模拟方法-从入门到发文章 之 背景介绍"></p>
 <h3 id="用到的软件"><a href="#用到的软件" class="headerlink" title="用到的软件"></a>用到的软件</h3><p>DFT这边用到的主流就是VASP，Gaussian,QE这种，而分子动力学那边就主打Lammps，gromacs那些了，我当时也就刚入门了VASP，甚至只能说入了半个门，如果一下子又转去做分子动力学，怕是真难顶。理论基础什么的就更别提了，有机考完就全扔了，大分子这块可谓一点都不会。</p>
 <p>顺便贴一个在知乎搜MD（molecular dynamics）相关软件的时候，发现了这么一条评论。</p>
-<p>​                                                 </p>
-<p><img src="C:\Users\27682\AppData\Roaming\Typora\typora-user-images\image-20211004221411402.png" alt="image-20211004221411402"></p>
+<p><img src="/2021/10/04/%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9/image-2.png" alt="image-2">                                            </p>
 <h2 id="一夜奇迹的诞生"><a href="#一夜奇迹的诞生" class="headerlink" title="一夜奇迹的诞生"></a>一夜奇迹的诞生</h2><p>向黄sir表示还是想继续做DFT之后，被告知可以现场想一个项目出来，不过要让我等一个晚上时间。有被震惊到，不是嫌一个晚上太长，而是这么短的时间里面居然能想出一个idea，虽然第二天得知是黄sir自己项目里面拆解下来的子子课题，但对我来说确实是一夜奇迹了。（<del>摸鱼大师表示一晚上甚至连一篇博文都写不完</del>）</p>
 <p>第二天中午从黄sir办公室走出来来的时候人还是麻的，之前一篇英文文献都没看过的人突然被告知有8、9篇东西要读，四天之内还要把申请书顺利写出来，可以说是压力拉满了。</p>
 <p>不过现在回过头来看，假如当初没有申报一个属于自己的项目，逼着自己硬着头皮啃文献，写本子，做PPT以及后来开始赶项目进度，我现在或许还在摸大鱼，vasp算例都写不了几个，根本不会想象到自己会习惯如今这种每天睁眼自学/搬砖，闭眼睡觉的生活节奏。</p>
