@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>EP1-画出ConvexHull（上） | 学不会数学</title>
+  <meta name="keywords" content=" sit , 正经向 , ConvexHull ">
+  <meta name="description" content="EP1-画出ConvexHull（上） | 学不会数学">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。 [toc] 说明：写正经向系列除了帮我自己理一下项目的发展流程以外，主要目的还是帮助组里的几个成员能够快速上手分析黄sir给出的数据，毕竟我也不是什么很敬业的组长，经常自己忙得顾头不顾尾，开个组会的时间可能都拿不出来，没法把我从黄sir和网路上学到的东西顺利">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EP1-画出ConvexHull（上）">
+<meta property="og:url" content="http://example.com/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
+<meta property="og:site_name" content="学不会数学">
+<meta property="og:description" content="本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。 [toc] 说明：写正经向系列除了帮我自己理一下项目的发展流程以外，主要目的还是帮助组里的几个成员能够快速上手分析黄sir给出的数据，毕竟我也不是什么很敬业的组长，经常自己忙得顾头不顾尾，开个组会的时间可能都拿不出来，没法把我从黄sir和网路上学到的东西顺利">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/step1.png">
+<meta property="og:image" content="http://example.com/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/step2.png">
+<meta property="article:published_time" content="2021-10-06T13:34:34.000Z">
+<meta property="article:modified_time" content="2021-10-06T15:11:24.009Z">
+<meta property="article:author" content="学不会数学">
+<meta property="article:tag" content="sit">
+<meta property="article:tag" content="正经向">
+<meta property="article:tag" content="ConvexHull">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/step1.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>学不会数学</span>
+</div>
+
+<div class="icon">
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(3)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                <li>
+                    <div data-rel="sit">
+                        
+                        sit
+                        <small>(1)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+        
+            
+                <li>
+                    <div data-rel="sit2021">
+                        
+                        sit2021
+                        <small>(2)</small>
+                        
+                    </div>
+                    
+                </li>
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="3">
+<input type="hidden" id="yelog_site_word_count" value="6.3k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>碎碎念</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>正经向</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ConvexHull</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>sit</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 sit "
+           href="/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/"
+           data-tag="sit,正经向,ConvexHull"
+           data-author="" >
+            <span class="post-title" title="EP1-画出ConvexHull（上）">EP1-画出ConvexHull（上）</span>
+            <span class="post-date" title="2021-10-06 21:34:34">2021/10/06</span>
+        </a>
+        
+        <a  class="全部文章 sit2021 "
+           href="/2021/10/05/%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81/"
+           data-tag="sit,碎碎念"
+           data-author="" >
+            <span class="post-title" title="国家级！国家级！国家级！">国家级！国家级！国家级！</span>
+            <span class="post-date" title="2021-10-05 19:47:08">2021/10/05</span>
+        </a>
+        
+        <a  class="全部文章 sit2021 "
+           href="/2021/10/04/%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9/"
+           data-tag="sit,碎碎念"
+           data-author="" >
+            <span class="post-title" title="梦开始的地方">梦开始的地方</span>
+            <span class="post-date" title="2021-10-04 08:04:12">2021/10/04</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-EP1-画出ConvexHull（上）" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">EP1-画出ConvexHull（上）</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="sit">sit</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">sit</a>
+            
+            <a class="color4">正经向</a>
+            
+            <a class="color1">ConvexHull</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2021-10-06 23:11:24'>2021-10-06 21:34</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:2.5k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E6%90%AC%E7%A0%96%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-text">开始搬砖前的准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%86%E8%AE%A1%E7%AE%97%EF%BC%8C%E4%BD%A0%E4%B8%80%E5%AE%9A%E4%B8%8D%E8%83%BD%E9%94%99%E8%BF%87%E7%9A%84%E6%95%99%E7%A8%8B%E7%BD%91%E7%AB%99"><span class="toc-text">关于第一性原理计算，你一定不能错过的教程网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%B8%E5%85%B3"><span class="toc-text">服务器相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="toc-text">理论基础</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E4%B8%AD%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="toc-text">第一步中的第一步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E5%87%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="toc-text">取出数据文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-text">数据处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">脚本的使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E7%82%B9%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="toc-text">一点复制粘贴的东西</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。</p>
+<p><div class='inner-toc'><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E6%90%AC%E7%A0%96%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-text">开始搬砖前的准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E7%AC%AC%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%86%E8%AE%A1%E7%AE%97%EF%BC%8C%E4%BD%A0%E4%B8%80%E5%AE%9A%E4%B8%8D%E8%83%BD%E9%94%99%E8%BF%87%E7%9A%84%E6%95%99%E7%A8%8B%E7%BD%91%E7%AB%99"><span class="toc-text">关于第一性原理计算，你一定不能错过的教程网站</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9B%B8%E5%85%B3"><span class="toc-text">服务器相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80"><span class="toc-text">理论基础</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E4%B8%AD%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="toc-text">第一步中的第一步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E5%87%BA%E6%95%B0%E6%8D%AE%E6%96%87%E4%BB%B6"><span class="toc-text">取出数据文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-text">数据处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">脚本的使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E7%82%B9%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="toc-text">一点复制粘贴的东西</span></a></li></ol></div></p>
+<p><strong>说明</strong>：写正经向系列除了帮我自己理一下项目的发展流程以外，主要目的还是帮助组里的几个成员能够快速上手分析黄sir给出的数据，毕竟我也不是什么很敬业的组长，经常自己忙得顾头不顾尾，开个组会的时间可能都拿不出来，没法把我从黄sir和网路上学到的东西顺利地交到他们手上。于是正好利用一下这篇博客，一来可以作为自己的流程温习，二来可以作为组员的教程。虽然写教程并不比开组会更节约时间，但教程的好处在于可以随时查看，而组会开完后往往扭头就忘了要干什么，又不好意思开口问老师/问组长，导致了大量时间的浪费，殊为不值。</p>
+<h1 id="开始搬砖前的准备"><a href="#开始搬砖前的准备" class="headerlink" title="开始搬砖前的准备"></a>开始搬砖前的准备</h1><p>由于黄sir特别贴心地在我们暑期摸鱼的时候就用USPEX生成了数千个结构数据，所以我们需要做的仅仅只是将这些数据搬过来，按照不同级别的要求筛选出其中理想稳定的结构数据，并获取其他文献/数据库中已有的稳定结构，将二者进行比较与融合，最终画出新的convexhull并依据此选择感兴趣的相点进行后续的定组分分析。</p>
+<h2 id="关于第一性原理计算，你一定不能错过的教程网站"><a href="#关于第一性原理计算，你一定不能错过的教程网站" class="headerlink" title="关于第一性原理计算，你一定不能错过的教程网站"></a>关于第一性原理计算，你一定不能错过的教程网站</h2><p>这些人写的教程不仅详实、正确且免费，在里面提过的内容我也不会再赘述，我只会针对这个sit项目写一点自己的心得，希望能够cover到那些通用教程所没有关注到的角落</p>
+<ol>
+<li><p>李强博士的VASP入门博客（Learn VASP The Hard Way）：<a target="_blank" rel="noopener" href="https://www.bigbrosci.com/">https://www.bigbrosci.com/</a></p>
+</li>
+<li><p>刘锦程博士（他应该是霹雳布袋戏的戏迷）的博客：<a target="_blank" rel="noopener" href="http://blog.wangruixing.cn/">http://blog.wangruixing.cn/</a></p>
+</li>
+<li><p>刘博的B站空间 ：<a target="_blank" rel="noopener" href="https://space.bilibili.com/45550176?from=search&amp;seid=17603466976448752814&amp;spm_id_from=333.337.0.0">https://space.bilibili.com/45550176?from=search&amp;seid=17603466976448752814&amp;spm_id_from=333.337.0.0</a> 最好能跟着他做的那个氧化铝的算例走一遍</p>
+</li>
+<li><p>刘博B站视频简介区里面的第一性原理计算教学网站集合，比如计算化学公社之类</p>
+</li>
+</ol>
+<h2 id="服务器相关"><a href="#服务器相关" class="headerlink" title="服务器相关"></a>服务器相关</h2><p><strong>1）怎么连接服务器</strong></p>
+<ul>
+<li>百度搜索“怎么用Xshell远程连接服务器”</li>
+<li>xshell和xftp建议一起下载</li>
+<li>不是说其他的ssh软件不行，关键是我不会用，到时候出了问题自己去翻官方文档orB站教程，别来找我就行</li>
+</ul>
+<p><strong>2）Linux系统的各种操作</strong></p>
+<ul>
+<li>准确来说，我们组的服务器用的是centos系统，大多数的做计算的服务器用的也就是这个发行版</li>
+<li>教程的话，李强的博客，尚硅谷，黑马程序员，总有一款适合你</li>
+</ul>
+<p><strong>3）作业提交即队列系统的使用</strong></p>
+<p>我们组用的队列系统是PBS队列系统，百度搜索PBS队列常用操作即可，或者CSDN</p>
+<h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><p>这方面怎么也不嫌多的，当然一点也没有也能入个门，真要学起来的话，量子力学，固体物理，材科基，固体化学（固体与表面），密度泛函理论……没有尽头，但前面几门最好还是尽快学一些，比如材科基的晶体学部分，以及量力和固体物理的原子论（晶体、晶格振动等等）和电子论部分（能带之类），不然后面做温度外推的时候连声子频谱都看不懂，虚频是什么意思也不知道可就难办了</p>
+<h1 id="第一步中的第一步"><a href="#第一步中的第一步" class="headerlink" title="第一步中的第一步"></a>第一步中的第一步</h1><h2 id="取出数据文件"><a href="#取出数据文件" class="headerlink" title="取出数据文件"></a>取出数据文件</h2><p>整个数据文件有几个G，但显然我们并不需要面对这几个G的文件，里面最值得我们关注的仅有几个，其他的看看就好。</p>
+<p>就目前为止，用到的原始数据有这么几个：</p>
+<ul>
+<li>extended_convex_hull，这里面存有各种结构的ID、组成、焓、fitness（可以简单理解为理想程度）等关键信息，我们要处理和分割的主要对象就是这个文件。</li>
+<li>extended_convex_hull_POSCARS或者gatheredPOSCARS都行，里面存有结构对应的晶格参数和晶胞中每个原子的相对位置，前者更小一些</li>
+</ul>
+<p>这些文件藏得都挺深的，我当初找的时候甚至不知道文件名字是什么，把每个文件夹都翻开来，看谁像就找谁，最后还是问了黄sir才知道到底应该用哪个，不过既然现在你已经知道了它们的名字，那么找到它们就不再是什么难事了，正好练习一下Linux系统的有关操作</p>
+<p>分别尝试以下操作：</p>
+<pre><code class="bash">find / -name extended_convex_hull
+</code></pre>
+<p>和</p>
+<pre><code class="bash">find / -name extended*
+</code></pre>
+<p>嗯我刚刚自己都试了一下，<del>效果挺强大的</del>，记下文件路径后记得按一下Ctrl+C来结束命令</p>
+<h2 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h2><p>在用xftp把文件拖到自己电脑上后，就可以开始用我写的python脚本来处理他们了，文件和.py程序放在同一个目录下更方便处理</p>
+<p>（当然你也可以在服务器上直接进行处理，不过那样可能对新生并不友好，而且我的脚本也从没有在linux平台上部署过，不排除出bug的可能性，而且近期我也不可能有空去处理这样产升的bug，如果你坚持要尝试的话，记得对脚本用一下<strong>dos2unix</strong>指令，他能够将windows平台下用utf-8编码方式写出来的程序转成符合Linux系统的unix格式程序）</p>
+<p>脚本所在的github仓库地址：<a target="_blank" rel="noopener" href="https://github.com/Ky0Price/ScriptsForSit/tree/toGeneratePhaseDiagram">https://github.com/Ky0Price/ScriptsForSit/tree/toGeneratePhaseDiagram</a></p>
+<p>你不会不知道怎么下载脚本吧，不会把不会吧</p>
+<hr>
+<p>step1：找到仓库页面右上角那个绿绿的按钮，写着<strong>代码</strong>或者<strong>code</strong></p>
+<p><img src="/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/step1.png" alt="step1"></p>
+<p>step2：选择下拉菜单里的下载zip压缩包，或者对应的英文</p>
+<p><img src="/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/step2.png" alt="step2"></p>
+<p>下完脚本之后就可以开始快乐地处理数据了，这些脚本虽然加起来也就两三百行，不过我足足写了一个多星期，所以有能力的话帮我把页面右上角的星星点亮一下吧，有了它们你起码省了几周的工作。建议有闲钱的大佬直接在文章结尾处给我打钱。</p>
+<h2 id="脚本的使用"><a href="#脚本的使用" class="headerlink" title="脚本的使用"></a>脚本的使用</h2><p>第一步你会用到的是getConvexHull.py这个脚本，里面包含脚本本身，大量的注释和一个简单的算例。</p>
+<p>里面没有说明，但是你应该特别注意的点有</p>
+<ul>
+<li>这是一个类，这个类里面有各种方法和属性，同一个方法最好不要多次调用，我虽然做了一定的保险措施，但是有些地方并不方便加保险，如果对同一个对象重复调用某方法，可能导致返回的属性值原地翻倍等问题，比如同一个数据列表他可能会重复写入self.attribute里面，明明只有20个结果条目，最后却出来三四十条</li>
+<li>这几个方法你一定要在开头调用，否则后面无法展开</li>
+</ul>
+<pre><code class="python">data=read_convexhull(filepath=&#39;./XXXX&#39;,POSpath=&quot;./xxxx&quot;,fitreq=0.0000, idlenth=4, datastart=7)
+# 这一步是创建实例，filepath和POSpath分别对应两个必要的数据文件
+# fitreq指的是对fitness的要求，这里取最大值（fitness越小越理想）
+# idlenth指结构的ID长度，本次用到的数据至多是四位数的ID，所以默认值为4
+# datastart指extended_convex_hull文件开始有数据的行数，默认值为4，不过应该7更合适一点，出问题的话这一项可以再改
+data.readPOSCAR() #读取POSCAR文件
+data.selectByFitness() # 顾名思义，根据fitreq来筛选我们需要的原始数据点，后面的操作都是针对这部分经过筛选的结构条目来进行的
+# 其他几个方法之间也各自有依赖关系，可以自己看代码研究一下，这里就不过多赘述了
+</code></pre>
+<p>把脚本里面几个功能都体验一遍，第一步的数据切割，筛选和保存工作基本也做完了</p>
+<h1 id="一点复制粘贴的东西"><a href="#一点复制粘贴的东西" class="headerlink" title="一点复制粘贴的东西"></a>一点复制粘贴的东西</h1><p>这是李强博士在教程开篇里面写的一几句话，记下来权当对自己的勉励。</p>
+<blockquote>
+<p>很多人认为，通过这个教程，学到了很多东西，但请不要过分把功劳归在我身上。引用佛系的观点：<strong>因果，完全是自作自受</strong>。你自己学习了，自己认真练习了，水平的提高完全是你自己辛苦付出的结果。<strong>教程就在这里，你学或者不学，都跟我没有关系。</strong>私以为，收获最大的还是本人。一方面把自己多年的学习的经验整理总结出来，另一方面，很多当时一知半解的地方，在写作的过程中，通过查阅资料，认真分析得到了解决。</p>
+<p>教程的宗旨在于快速带领大家入门VASP的使用，这里大师兄想起了金庸笔下的打狗棒法， 本书传授的只是招式，而心法口诀则是你扎实的科研基础功，是自己这些年（高中，大学，硕士，博士）通过坚持不懈学习来积累获得的，对次，本人确实无能为力，而这一点也恰恰是我们最欠缺的部分，希望可以引起大家的重视，在等待任务结束的时候，多多补习自己的基础知识。</p>
+</blockquote>
+<hr>
+<p><em>欢迎在评论区或者项目组群里讨论问题、补充内容、指出错误。请勿发送占楼、沙发、点赞等无意义的回复。</em></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 price2001@163.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '7ff4a36af237da68c232',
+            clientSecret: 'c028baab240ecb60ef5db891681e68f1484136f2',
+            repo: 'Ky0Price.github.io',
+            owner: 'Ky0Price',
+            admin: ['Ky0Price'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('30',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2020 学不会数学
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
