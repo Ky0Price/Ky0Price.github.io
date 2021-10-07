@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>EP2-画出ConvexHull（中） | 学不会数学</title>
+  <meta name="keywords" content=" sit , 正经向 , ConvexHull ">
+  <meta name="description" content="EP2-画出ConvexHull（中） | 学不会数学">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。 [toc] 一点说明虽然最终我们可能需要三张相图或者说三个convexhull，纯uspex数据的，纯官方数据库（文献）的以及两者混合的。这也就是说，为了最后画图的方面方便，uspex和数据库的数据最好用两个或多个变量分别保存，否则后期再自己切割就很麻烦了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EP2-画出ConvexHull（中）">
+<meta property="og:url" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/index.html">
+<meta property="og:site_name" content="学不会数学">
+<meta property="og:description" content="本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。 [toc] 一点说明虽然最终我们可能需要三张相图或者说三个convexhull，纯uspex数据的，纯官方数据库（文献）的以及两者混合的。这也就是说，为了最后画图的方面方便，uspex和数据库的数据最好用两个或多个变量分别保存，否则后期再自己切割就很麻烦了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/API%E4%BD%BF%E7%94%A8%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/%E4%BF%AE%E6%AD%A3%E5%90%8E%E7%9A%84%E8%83%BD%E9%87%8F.png">
+<meta property="og:image" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/MP%E7%94%BB%E7%9B%B8%E5%9B%BE.png">
+<meta property="article:published_time" content="2021-10-07T12:27:47.000Z">
+<meta property="article:modified_time" content="2021-10-07T14:08:41.989Z">
+<meta property="article:author" content="学不会数学">
+<meta property="article:tag" content="sit">
+<meta property="article:tag" content="正经向">
+<meta property="article:tag" content="ConvexHull">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/API%E4%BD%BF%E7%94%A8%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE.png">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js" ></script>
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/avatar.jpg"/>
+</a>
+<div class="author">
+    <span>学不会数学</span>
+</div>
+
+<div class="icon">
+    
+</div>
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(4)</small>
+            
+        </div>
+    </li>
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+            
+            
+    </div>
+    <div>
+        
+            <a class="about  hasFriend  site_url"
+               
+               href="/about">关于</a>
+        
+        <a style="width: 50%"
+                
+                                           class="friends">友链</a>
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="4">
+<input type="hidden" id="yelog_site_word_count" value="9k">
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>碎碎念</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>正经向</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ConvexHull</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>sit</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class="全部文章 "
+           href="/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/"
+           data-tag="sit,正经向,ConvexHull"
+           data-author="" >
+            <span class="post-title" title="EP2-画出ConvexHull（中）">EP2-画出ConvexHull（中）</span>
+            <span class="post-date" title="2021-10-07 20:27:47">2021/10/07</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/"
+           data-tag="sit,正经向,ConvexHull"
+           data-author="" >
+            <span class="post-title" title="EP1-画出ConvexHull（上）">EP1-画出ConvexHull（上）</span>
+            <span class="post-date" title="2021-10-06 21:34:34">2021/10/06</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2021/10/05/%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81/"
+           data-tag="sit,碎碎念"
+           data-author="" >
+            <span class="post-title" title="国家级！国家级！国家级！">国家级！国家级！国家级！</span>
+            <span class="post-date" title="2021-10-05 19:47:08">2021/10/05</span>
+        </a>
+        
+        <a  class="全部文章 "
+           href="/2021/10/04/%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9/"
+           data-tag="sit,碎碎念"
+           data-author="" >
+            <span class="post-title" title="梦开始的地方">梦开始的地方</span>
+            <span class="post-date" title="2021-10-04 08:04:12">2021/10/04</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-EP2-画出ConvexHull（中）" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">EP2-画出ConvexHull（中）</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color4">sit</a>
+            
+            <a class="color4">正经向</a>
+            
+            <a class="color1">ConvexHull</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+            发布时间 : <time class="date" title='最后更新: 2021-10-07 22:08:41'>2021-10-07 20:27</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        <span>字数:2.7k</span>
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+        <span class="top-comment" title="跳转至评论区">
+            <a href="#comments">
+                评论:<span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </a>
+        </span>
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E7%82%B9%E8%AF%B4%E6%98%8E"><span class="toc-text">一点说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MP%E5%92%8Cpymatgen"><span class="toc-text">MP和pymatgen</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">数据库的选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E4%BD%BF%E7%94%A8%E6%84%9F%E5%8F%97"><span class="toc-text">我的使用感受</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pymatgen%E7%9A%84%EF%BC%88%E4%B8%8D%EF%BC%89%E6%AD%A3%E7%A1%AE%E6%89%93%E5%BC%80%E6%96%B9%E5%BC%8F"><span class="toc-text">pymatgen的（不）正确打开方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">API的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%86%E5%88%AB%E8%8E%B7%E5%8F%96%E8%BF%99%E4%BA%9B%E6%9D%A1%E7%9B%AE"><span class="toc-text">如何分别获取这些条目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E5%95%A5%E4%B8%8D%E7%94%A8pymatgen%E6%9D%A5%E7%94%BB%E7%9B%B8%E5%9B%BE"><span class="toc-text">为啥不用pymatgen来画相图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%81%9A%E7%9A%84%E5%B7%A5%E4%BD%9C"><span class="toc-text">总结一下我们需要自己动手做的工作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%BE%88%E6%9C%89%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-text">一个很有用的工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E4%BA%86%EF%BC%9F"><span class="toc-text">结束了？</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。</p>
+<p><div class='inner-toc'><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E7%82%B9%E8%AF%B4%E6%98%8E"><span class="toc-text">一点说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MP%E5%92%8Cpymatgen"><span class="toc-text">MP和pymatgen</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">数据库的选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E7%9A%84%E4%BD%BF%E7%94%A8%E6%84%9F%E5%8F%97"><span class="toc-text">我的使用感受</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pymatgen%E7%9A%84%EF%BC%88%E4%B8%8D%EF%BC%89%E6%AD%A3%E7%A1%AE%E6%89%93%E5%BC%80%E6%96%B9%E5%BC%8F"><span class="toc-text">pymatgen的（不）正确打开方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">API的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%86%E5%88%AB%E8%8E%B7%E5%8F%96%E8%BF%99%E4%BA%9B%E6%9D%A1%E7%9B%AE"><span class="toc-text">如何分别获取这些条目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E5%95%A5%E4%B8%8D%E7%94%A8pymatgen%E6%9D%A5%E7%94%BB%E7%9B%B8%E5%9B%BE"><span class="toc-text">为啥不用pymatgen来画相图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%81%9A%E7%9A%84%E5%B7%A5%E4%BD%9C"><span class="toc-text">总结一下我们需要自己动手做的工作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%BE%88%E6%9C%89%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-text">一个很有用的工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E4%BA%86%EF%BC%9F"><span class="toc-text">结束了？</span></a></li></ol></div></p>
+<h1 id="一点说明"><a href="#一点说明" class="headerlink" title="一点说明"></a>一点说明</h1><p>虽然最终我们可能需要三张相图或者说三个convexhull，纯uspex数据的，纯官方数据库（文献）的以及两者混合的。这也就是说，为了最后画图的方面方便，uspex和数据库的数据最好用两个或多个变量分别保存，否则后期再自己切割就很麻烦了。</p>
+<h1 id="MP和pymatgen"><a href="#MP和pymatgen" class="headerlink" title="MP和pymatgen"></a>MP和pymatgen</h1><p>解决完了USPEX那边的数据后，接下来的事情可能就稍微有一点挑战性了，那就是整合数据库那边的资源。</p>
+<h2 id="数据库的选择"><a href="#数据库的选择" class="headerlink" title="数据库的选择"></a>数据库的选择</h2><p>这里还是首推Materials Project，它不仅数据丰富，功能强大，而且UI也不那么反人类，更重要的是，他可以用pymatgen提供的API来批量摘取、处理数据。</p>
+<p>关于MP数据库和pymatgen的介绍和用法请参考刘锦程的博客：<a target="_blank" rel="noopener" href="http://blog.wangruixing.cn/2019/06/12/pymatgen-api/">http://blog.wangruixing.cn/2019/06/12/pymatgen-api/</a></p>
+<h2 id="我的使用感受"><a href="#我的使用感受" class="headerlink" title="我的使用感受"></a>我的使用感受</h2><p>MP确实没的说，功能强大、丰富又方便，ICSD虽然老牌但是不用科学上网或者湖大的图书馆数字资源接口恐怕很难登进去，我最想吐槽的其实是pymatgen，它的功能介绍和算例写得着实扯淡。本来想着能够用它一条龙解决数据库这边的工作，结果却是坐在图书馆里对着他的官方文档戴了一整天的痛苦面具，最后不得不转头用ASE来画convexhull，接着又引发了一些系列的问题，足以让我再写一篇教程。</p>
+<h2 id="pymatgen的（不）正确打开方式"><a href="#pymatgen的（不）正确打开方式" class="headerlink" title="pymatgen的（不）正确打开方式"></a>pymatgen的（不）正确打开方式</h2><p>pymatgen的功能足足有几十上百条，不过在这个阶段我们主要会用到它的两个功能</p>
+<h3 id="API的使用"><a href="#API的使用" class="headerlink" title="API的使用"></a>API的使用</h3><p>在对它画相图的功能彻底绝望了之后，我主要用到的也就是他的API抓取功能了。虽然说在这个阶段我们能用它抓取的数据也就个位数条，为了把他转成ASE能看懂的格式，最后还是手动输入的数据。不过这不妨碍我们练习一下它的数据爬取功能。</p>
+<p>官方文档（推荐啃英文，网页翻译的结果更不像人话）：<a target="_blank" rel="noopener" href="https://pymatgen.org/pymatgen.ext.matproj.html">https://pymatgen.org/pymatgen.ext.matproj.html</a></p>
+<p>这里是我当时用到的的代码</p>
+<pre><code class="python">from pymatgen.ext.matproj import MPRester
+with MPRester(&quot;YOUR_API_KEY&quot;) as m:  # 给人分享代码的时候一定注意给自己的API秘钥打码
+    mp_entries = m.get_entries(chemsys_formula_id_criteria=&#39;Li-C-N&#39;,property_data=&#39;energy&#39;)
+    # 在数据库里爬取所有的Li-C-N三元系统的结构，并打印
+print(mp_entries)
+</code></pre>
+<p>几点说明：</p>
+<ul>
+<li>可以看到我这里加了一条<code>property_data=&#39;energy&#39;</code>这是因为它给的数据太全了，这是好事，但是数据格式比较“不那么具备适用性”，这就不是很好了，因为我们最终不需要用它来画相图，而是用ASE，所以我希望能够用这几条来规范一下它的输出，但事实证明这样没什么大用，效果还是这幅样子</li>
+</ul>
+<p><img src="/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/API%E4%BD%BF%E7%94%A8%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="可以看到数据的间断点甚至不那么好看到"></p>
+<ul>
+<li><p>我们最终需要哪些条目</p>
+<ul>
+<li><p>结构对应的ID（可选）</p>
+</li>
+<li><p>结构的分子式</p>
+</li>
+<li><p>结构对应的能量（整个分子的，而且是Corrected的）</p>
+</li>
+<li><p>结构的cif文件</p>
+</li>
+<li><p>空间群</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何分别获取这些条目"><a href="#如何分别获取这些条目" class="headerlink" title="如何分别获取这些条目"></a>如何分别获取这些条目</h3><p>1）可以看到前两个我们用API得到的数据里面就有，写程序摘出来或者手动复制粘贴即可</p>
+<p>2）关于能量，我不得不吐槽，我一开始看到<strong>energy（uncorrected）</strong>和<strong>energy（final）</strong>（见上图）的时候，以为final就是指的经过修正的能量，但当我看到<strong>每一条结构</strong>的这两条能量<strong>都一样</strong>的时候，我意识到了问题的严重性。当我试着直接去网页里面手动找的时候，我确认了自己心里的那点怀疑，就以上图的mp-9610为例：</p>
+<p><img src="/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/%E4%BF%AE%E6%AD%A3%E5%90%8E%E7%9A%84%E8%83%BD%E9%87%8F.png" alt="这个在结构对应的网页页面的底部附近"></p>
+<p>所以我最后还是手动一条条去网页上复制的。</p>
+<p>3）cif文件的获取可以用API，也可以直接去网页上下载，下载的方法详见刘锦程的B站教学《理论催化计算实战教学3-VASP输入文件》，获得cif文件之后可以用vesta直接一键转成POSCAR文件，方法详见《理论催化计算实战教学4-VASP输入文件》，cif文件用完也别丢，后头可能还要用他来找空间群，为什么用可能呢，是因为我在写这篇文章的时候依然没搞懂到底要怎么找</p>
+<p>4）空间群的获取也有两种方法，取网站上面手动复制粘贴，或者你可以研究一下pymatgen的SpacegroupAnalyzer()这个类，应该也能得到不错的结果，研究出来了可以联系我，把这个功能也加入脚本套餐，方便之后的数据整理</p>
+<h3 id="为啥不用pymatgen来画相图"><a href="#为啥不用pymatgen来画相图" class="headerlink" title="为啥不用pymatgen来画相图"></a>为啥不用pymatgen来画相图</h3><p>准确来说，你可用它来画MP的那张convexhull，但是用它来接收USPEX的数据的时候，就要抓瞎了。</p>
+<p>我们来看看它给的如何结合自己已有的VASP计算数据和MP的数据来生成相图的。</p>
+<pre><code class="python"># “#”后面的是官方的注释，“##”后面的是我的吐槽
+from pymatgen.ext.matproj import MPRester
+from pymatgen.apps.borg.hive import VaspToComputedEntryDrone
+from pymatgen.apps.borg.queen import BorgQueen
+from pymatgen.entries.compatibility import MaterialsProjectCompatibility
+from pymatgen.analysis.phase_diagram import PhaseDiagram, PDPlotter
+
+# Assimilate VASP calculations into ComputedEntry object. Let&#39;s assume that
+# the calculations are for a series of new LixFeyOz phases that we want to
+# know the phase stability.
+drone = VaspToComputedEntryDrone()
+queen = BorgQueen(drone, rootpath=&quot;.&quot;)  ##所以这个rootpath我到底应该填啥，VASP计算完之后这么多结果文件，你到底要啥
+## 最后我发现它要的是vasprun.xml文件，而USPEX虽然调用vasp做的计算，然而输出文件里面并没有这个，我还回头去翻了他那个一百多页的使用说明书，也没看到能通过加什么启动设置来得到这个文件，这也就是为什么我最后还是用了ASE去画相图
+entries = queen.get_data() 
+## 这些个drone，queen，Brog方法/变量名到底有什么深意，我并没有看懂，还特别不好记，官网查资料的时候也容易看晕
+
+# Obtain all existing Li-Fe-O phases using the Materials Project REST API
+with MPRester(&quot;USER_API_KEY&quot;) as m:
+    mp_entries = m.get_entries_in_chemsys([&quot;Li&quot;, &quot;Fe&quot;, &quot;O&quot;])
+## 它确实能获得所有的三元体系结构，但是如果你真的用MP网站上的画相图功能的时候，你会发现stable point里面不仅有三元结构，还有二元的，也就意味着我们最后还是要补充上这几个数据，或者说pymatgen还有什么功能我没发掘到，但至少这个指令不太行，我自己写的那个也一样
+# Combined entry from calculated run with Materials Project entries
+entries.extend(mp_entries)
+
+# Process entries using the MaterialsProjectCompatibility
+compat = MaterialsProjectCompatibility()
+entries = compat.process_entries(entries)
+
+# Generate and plot Li-Fe-O phase diagram
+pd = PhaseDiagram(entries)
+plotter = PDPlotter(pd)
+plotter.show()
+</code></pre>
+<p>相信我已经解释得蛮清楚了</p>
+<h1 id="总结一下我们需要自己动手做的工作"><a href="#总结一下我们需要自己动手做的工作" class="headerlink" title="总结一下我们需要自己动手做的工作"></a>总结一下我们需要自己动手做的工作</h1><p>1）手动或者自动化地从MP网站里面摘取需要的结构信息，记得它有两部分</p>
+<p>贴一下MP网站的画相图功能</p>
+<p><img src="/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/MP%E7%94%BB%E7%9B%B8%E5%9B%BE.png"></p>
+<p>2）由于MP里的结构数据默认是在0K0GPa下的，所以如果你做的是0GPa下的搜索，那么就不需要再做什么多余的事情了，但如果你做的是压力下的搜索，那么这些结构拿来之后还不能直接用，你要用他的cif转POSCAR文件拿去VASP里面算它在压力下的空间结构和能量信息等。至于怎么算，其实我也没试过，但想来应该就是在INCAR里面改几个参数，详情见VASP官网的指南或者VASP WiKi</p>
+<p>WiKi地址：<a target="_blank" rel="noopener" href="https://www.vasp.at/wiki/index.php/The_VASP_Manual">https://www.vasp.at/wiki/index.php/The_VASP_Manual</a></p>
+<p>VASP 在线手册：<a target="_blank" rel="noopener" href="https://cms.mpi.univie.ac.at/vasp/vasp/vasp.html%EF%BC%88%E5%8F%AF%E8%83%BD%E8%A6%81%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91%EF%BC%89">https://cms.mpi.univie.ac.at/vasp/vasp/vasp.html（可能要科学上网）</a></p>
+<h1 id="一个很有用的工具"><a href="#一个很有用的工具" class="headerlink" title="一个很有用的工具"></a>一个很有用的工具</h1><p>刚刚提到了用POSCAR文件做VASP计算，那就不得不介绍一下VASPKIT，是一个我个人认为功德无量的脚本软件，他其他的几十个功能我还没用过，但光是他自动生成VASP计算的输入文件就已经很香了（生成的依据就是你给他的POSCAR文件），而且通过bash语言还能实现批量生成输入文件（夹）。这种酸爽，只有自己亲自写过那四大输入文件的人才能体会。</p>
+<p>不过要注意的是他自动生成INCAR文件的时候要小心一点，最好参数自己稍微检查一下，比如我看他给C，N这种非金属原子生成的INCAR文件里面得SIGMA值也是0.05，这个值用来算金属是好的，但是对非金属和气体分子而言就不一定适合了，这里贴一下LVTHW里面的原话：</p>
+<blockquote>
+<p>SIGMA的取值和ISMEAR息息相关，也就是和ISMEAR这个参数同时出现，设定。下面是一些基本的介绍：</p>
+<ul>
+<li>如果用了ISMEAR = -5； SIGMA的值可以忽略，也可以不管。（对于所有体系都适用)；</li>
+<li>对于金属： ISMEAR = 1 或者0，非金属: ISMEAR= 0 的时候，一般取 SIGMA = 0.10 即可，默认值是0.20。不放心的话，用0.05。</li>
+<li>对于气体分子，原子体系（也就是你把分子或者原子放到一个box里面）：死死记住下面组合就可以了， ISMEAR = 0; SIGMA = 0.01。</li>
+</ul>
+<p>不过很多人都不放心，为了保险想测试一番。标准是： SIGMA的取值要保证OUTCAR 中的 entropy T*S 这一项，平均到每个原子上，要小于 1-2 meV。检查的时候可以用这个命令:</p>
+<pre><code class="bash">grep &#39;entropy T&#39;  OUTCAR
+</code></pre>
+</blockquote>
+<p>关于最后这个命令，我试过把他改成其他形式，比如<code>grep &#39;entropy T*S&#39;  OUTCAR</code>之类的，效果远不如他写的这条，放心用就是了。</p>
+<h1 id="结束了？"><a href="#结束了？" class="headerlink" title="结束了？"></a>结束了？</h1><p>理论上，当你做完了这些工作，现在手里有了USPEX的数据，也有了来自数据库的数据，那是不是可以直接用ASE愉快地作图了？并不是，如果这样就完结的话，那我github仓库里另外两个脚本是用来干啥的。关于ASE作图和一些额外的工作，我会放到下一节再详细讲。</p>
+<hr>
+<p><em>欢迎在评论区或者项目组群里讨论问题、补充内容、指出错误。请勿发送占楼、沙发、点赞等无意义的回复。</em></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 price2001@163.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a  class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+
+
+    <div id="comments"></div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+<script type="text/javascript">
+    $.getScript('/js/gitalk.js', function () {
+        var gitalk = new Gitalk({
+            clientID: '7ff4a36af237da68c232',
+            clientSecret: 'c028baab240ecb60ef5db891681e68f1484136f2',
+            repo: 'Ky0Price.github.io',
+            owner: 'Ky0Price',
+            admin: ['Ky0Price'],
+            id: decodeURI(location.pathname),
+            distractionFreeMode: 'true',
+            language: 'zh-CN',
+            perPage: parseInt('30',10)
+        })
+        gitalk.render('comments')
+    })
+</script>
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2020 学不会数学
+</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close"  onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 542px;
+    }
+    .nav.fullscreen {
+        margin-left: -542px;
+    }
+    .nav-left {
+        width: 120px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

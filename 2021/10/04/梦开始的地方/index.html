@@ -6,23 +6,24 @@
   <meta name="keywords" content=" sit , 碎碎念 ">
   <meta name="description" content="梦开始的地方 | 学不会数学">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。 [toc] 说明：写正经向系列除了帮我自己理一下项目的发展流程以外，主要目的还是帮助组里的几个成员能够快速上手分析黄sir给出的数据，毕竟我也不是什么很敬业的组长，经常自己忙得顾头不顾尾，开个组会的时间可能都拿不出来，没法把我从黄sir和网路上学到的东西顺利">
+<meta name="description" content="本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。 [toc] 一点说明虽然最终我们可能需要三张相图或者说三个convexhull，纯uspex数据的，纯官方数据库（文献）的以及两者混合的。这也就是说，为了最后画图的方面方便，uspex和数据库的数据最好用两个或多个变量分别保存，否则后期再自己切割就很麻烦了。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="EP1-画出ConvexHull（上）">
-<meta property="og:url" content="http://example.com/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
+<meta property="og:title" content="EP2-画出ConvexHull（中）">
+<meta property="og:url" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/index.html">
 <meta property="og:site_name" content="学不会数学">
-<meta property="og:description" content="本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。 [toc] 说明：写正经向系列除了帮我自己理一下项目的发展流程以外，主要目的还是帮助组里的几个成员能够快速上手分析黄sir给出的数据，毕竟我也不是什么很敬业的组长，经常自己忙得顾头不顾尾，开个组会的时间可能都拿不出来，没法把我从黄sir和网路上学到的东西顺利">
+<meta property="og:description" content="本文章为原创，版权归作者张圳南所有，文章转载请先取得作者的同意，非常欢迎转发文章链接！严禁以任何方式挪用本文内容，用于以盈利为目的各种活动。 [toc] 一点说明虽然最终我们可能需要三张相图或者说三个convexhull，纯uspex数据的，纯官方数据库（文献）的以及两者混合的。这也就是说，为了最后画图的方面方便，uspex和数据库的数据最好用两个或多个变量分别保存，否则后期再自己切割就很麻烦了。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/step1.png">
-<meta property="og:image" content="http://example.com/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/step2.png">
-<meta property="article:published_time" content="2021-10-06T13:34:34.000Z">
-<meta property="article:modified_time" content="2021-10-06T15:11:24.009Z">
+<meta property="og:image" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/API%E4%BD%BF%E7%94%A8%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE.png">
+<meta property="og:image" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/%E4%BF%AE%E6%AD%A3%E5%90%8E%E7%9A%84%E8%83%BD%E9%87%8F.png">
+<meta property="og:image" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/MP%E7%94%BB%E7%9B%B8%E5%9B%BE.png">
+<meta property="article:published_time" content="2021-10-07T12:27:47.000Z">
+<meta property="article:modified_time" content="2021-10-07T14:08:41.989Z">
 <meta property="article:author" content="学不会数学">
 <meta property="article:tag" content="sit">
 <meta property="article:tag" content="正经向">
 <meta property="article:tag" content="ConvexHull">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/step1.png">
+<meta name="twitter:image" content="http://example.com/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/API%E4%BD%BF%E7%94%A8%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE.png">
 
 
 <link rel="icon" href="/img/avatar.jpg">
@@ -84,38 +85,10 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(3)</small>
+                <small>(4)</small>
             
         </div>
     </li>
-    
-        
-            
-                <li>
-                    <div data-rel="sit">
-                        
-                        sit
-                        <small>(1)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
-    
-        
-            
-                <li>
-                    <div data-rel="sit2021">
-                        
-                        sit2021
-                        <small>(2)</small>
-                        
-                    </div>
-                    
-                </li>
-            
-        
     
 </ul>
 <div class="left-bottom">
@@ -137,8 +110,8 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="3">
-<input type="hidden" id="yelog_site_word_count" value="6.3k">
+<input type="hidden" id="yelog_site_posts_number" value="4">
+<input type="hidden" id="yelog_site_word_count" value="9k">
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
     <span id="busuanzi_value_site_pv"></span>
@@ -204,7 +177,15 @@
     
     <nav id="title-list-nav">
         
-        <a  class="全部文章 sit "
+        <a  class="全部文章 "
+           href="/2021/10/07/EP2-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%AD%EF%BC%89/"
+           data-tag="sit,正经向,ConvexHull"
+           data-author="" >
+            <span class="post-title" title="EP2-画出ConvexHull（中）">EP2-画出ConvexHull（中）</span>
+            <span class="post-date" title="2021-10-07 20:27:47">2021/10/07</span>
+        </a>
+        
+        <a  class="全部文章 "
            href="/2021/10/06/EP1-%E7%94%BB%E5%87%BAConvexHull%EF%BC%88%E4%B8%8A%EF%BC%89/"
            data-tag="sit,正经向,ConvexHull"
            data-author="" >
@@ -212,7 +193,7 @@
             <span class="post-date" title="2021-10-06 21:34:34">2021/10/06</span>
         </a>
         
-        <a  class="全部文章 sit2021 "
+        <a  class="全部文章 "
            href="/2021/10/05/%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81%E5%9B%BD%E5%AE%B6%E7%BA%A7%EF%BC%81/"
            data-tag="sit,碎碎念"
            data-author="" >
@@ -220,7 +201,7 @@
             <span class="post-date" title="2021-10-05 19:47:08">2021/10/05</span>
         </a>
         
-        <a  class="全部文章 sit2021 "
+        <a  class="全部文章 "
            href="/2021/10/04/%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9/"
            data-tag="sit,碎碎念"
            data-author="" >
@@ -254,14 +235,6 @@
         
         
         
-        <span class="book">
-            <i class="iconfont icon-category"></i>
-            
-            
-            <a  data-rel="sit2021">sit2021</a>
-            
-        </span>
-        
         
         <span class="tag">
             <i class="iconfont icon-tag"></i>
@@ -275,7 +248,7 @@
     </div>
     <div class="article-meta">
         
-            发布时间 : <time class="date" title='最后更新: 2021-10-05 22:39:08'>2021-10-04 08:04</time>
+            发布时间 : <time class="date" title='最后更新: 2021-10-07 20:29:50'>2021-10-04 08:04</time>
         
     </div>
     <div class="article-meta">
